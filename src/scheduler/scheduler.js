@@ -1,38 +1,46 @@
-import { scheduleJob } from "node-schedule";
+import { scheduleJob, Range, RecurrenceRule } from "node-schedule";
 import moment from "moment-timezone";
-import steps from "../steps/steps";
-import getHolidays from "../utils/national-holiday";
-import Holiday from "../models/Holiday";
+import steps from "../steps/steps.js";
+import getHolidays from "../utils/national-holiday.js";
+import Holiday from "../models/Holiday.js";
 
-class Scheduler {
-  defaultTZ = "Asia/Singapore";
-  constructor() {}
-  start() {
-    scheduleJob(
-      "0 9,18 * * *",
-      async () => {
-        const date = moment().tz(this.defaultTZ);
-        const holiday = await Holiday.findOne({
-          startDate: date.format("YYYY-MM-DD"),
-        });
+const DEFAULT_TZ = "Asia/Singapore";
 
-        if (holiday) {
-          return;
-        }
+async function attendance() {
+  const date = moment().tz(this.defaultTZ);
+  const holiday = await Holiday.findOne({
+    startDate: date.format("YYYY-MM-DD"),
+  });
 
-        const stepType = "clock-in";
-        if (date.hour() === 18 && date.minute() === 0) {
-          stepType = "clock-out";
-        }
-        await steps(stepType);
-      },
-      { timezone: this.defaultTZ }
-    );
-
-    scheduleJob("0 1 1 * *", async () => await getHolidays(), {
-      timezone: this.defaultTZ,
-    });
+  if (holiday) {
+    return;
   }
+
+  let stepType = "clock-in";
+  if (date.hour() === 18 && date.minute() === 0) {
+    stepType = "clock-out";
+  }
+  await steps(stepType);
 }
 
-export default Scheduler;
+async function holiday() {
+  await getHolidays();
+}
+
+const initSchedule = () => {
+  const ruleAttendance = new RecurrenceRule();
+  ruleAttendance.dayOfWeek = [new Range(1, 5)];
+  ruleAttendance.hour = [9, 18];
+  ruleAttendance.minute = 0;
+  ruleAttendance.second = 0;
+  ruleAttendance.tz = DEFAULT_TZ;
+
+  const ruleHoliday = new RecurrenceRule();
+  ruleHoliday.month = [new Range(0, 11)];
+  ruleHoliday.date = 1;
+
+  scheduleJob(ruleAttendance, attendance);
+  scheduleJob(ruleHoliday, holiday);
+};
+
+export { initSchedule };
