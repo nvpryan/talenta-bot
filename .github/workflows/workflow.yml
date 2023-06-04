@@ -8,7 +8,7 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-20.04
     env:
-      MAIN_ENV: ${{ secrets.ENV }}
+      ENV: ${{ secrets.ENV }}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
