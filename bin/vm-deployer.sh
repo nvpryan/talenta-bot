@@ -3,16 +3,12 @@
 set -e
 tag=$1
 
-if [[ "$(docker ps -a -q)" != "" ]]; then
-  echo "Remove obsolete docker container"
-  docker stop "$(docker ps -a -q)"
-  docker rm "$(docker ps -a -q)"
-fi
+echo "Remove obsolete docker container"
+docker stop talenta-bot
+docker rm talenta-bot
 
-if [[ "$(docker images -a -q)" != "" ]]; then
-  echo "Remove obsolete docker images"
-  docker rmi $(docker images -a -q)
-fi
+echo "Remove obsolete docker images"
+docker rmi talenta-bot
 
 docker pull "$tag"
-docker run -d --restart always --net=host "$tag"
+docker run -d --restart always --net=host --name talenta-bot "$tag"
