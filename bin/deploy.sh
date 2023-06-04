@@ -12,4 +12,4 @@ echo "Releasing to $environment"
 ssh-keyscan "$SERVER_IP" >>~/.ssh/known_hosts
 scp ./bin/vm-deployer.sh "$SERVER_USERNAME@$SERVER_IP":~/vm-deployer.sh
 ssh "$SERVER_USERNAME@$SERVER_IP" \
-  "mkdir -p ~/scripts && mv ~/vm-deployer.sh ~/scripts/vm-deployer.sh && chmod +x ~/scripts/vm-deployer.sh && ~/scripts/vm-deployer.sh '$tag'"
+  "mkdir -p ~/talenta-bot/scripts/ && mv ~/vm-deployer.sh ~/talenta-bot/scripts/vm-deployer.sh && chmod +x ~/talenta-bot/scripts/vm-deployer.sh && ~/talenta-bot/scripts/vm-deployer.sh '$tag'"
