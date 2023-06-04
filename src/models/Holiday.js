@@ -1,4 +1,4 @@
-import db from "../config/database.config";
+import db from "../config/database.config.js";
 
 const HolidaySchema = new db.Schema({
   title: { type: String, required: true },
