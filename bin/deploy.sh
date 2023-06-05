@@ -14,7 +14,7 @@ scp ./docker-compose.yml "$SERVER_USERNAME@$SERVER_IP":~/docker-compose.yml
 ssh "$SERVER_USERNAME@$SERVER_IP" \
   "mkdir -p ~/talenta-bot/ ;" \
   "mv ~/docker-compose.yml ~/talenta-bot/docker-compose.yml ;" \
-  "mv ~/vm-deployer.sh ~/talenta-bot/vm-deployer.sh ;" 
-ssh "$SERVER_USERNAME@$SERVER_IP" \
+  "mv ~/vm-deployer.sh ~/talenta-bot/vm-deployer.sh ;" \
   "chmod +x ~/talenta-bot/vm-deployer.sh ;" \
-  "sh ~/talenta-bot/vm-deployer.sh ${DB_NAME} ;"
+  "cd ~/talenta-bot" \
+  "~/talenta-bot/vm-deployer.sh ${DB_NAME} ;"
