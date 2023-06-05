@@ -17,7 +17,7 @@ async function attendance() {
   }
 
   let stepType = "clock-in";
-  if (date.hour() === 18 && date.minute() === 0) {
+  if (date.hour() === 18) {
     stepType = "clock-out";
   }
   await steps(stepType);
