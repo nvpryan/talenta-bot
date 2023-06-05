@@ -47,4 +47,4 @@ jobs:
         run: |
           SERVER_USERNAME=${{ secrets.SERVER_USERNAME }} \
           SERVER_IP=${{ secrets.SERVER_IP }} \
-          ./bin/deploy.sh production
+          ./bin/deploy.sh production '${{ secrets.DB_NAME }}'

@@ -6,7 +6,7 @@ function get_hash() {
 }
 
 function get_tag() {
-  tag=nvpryan/personal:talentabot-$(date +%y.%m.%d)-$(get_hash)
+  tag=nvpryan/talentabot:$(date +%y.%m.%d)-$(get_hash)
   echo "$tag"
 }
 
