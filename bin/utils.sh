@@ -6,7 +6,7 @@ function get_hash() {
 }
 
 function get_tag() {
-  tag=nvpryan/talenta-bot:$(date +%y.%m.%d)-$(get_hash)
+  tag=nvpryan/talenta-bot:latest
   echo "$tag"
 }
 
