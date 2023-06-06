@@ -7,24 +7,32 @@ import Holiday from "../models/Holiday.js";
 const DEFAULT_TZ = "Asia/Singapore";
 
 async function attendance() {
-  const date = moment().tz(DEFAULT_TZ);
-  const holiday = await Holiday.findOne({
-    startDate: date.format("YYYY-MM-DD"),
-  });
+  try {
+    const date = moment().tz(DEFAULT_TZ);
+    const holiday = await Holiday.findOne({
+      startDate: date.format("YYYY-MM-DD"),
+    });
 
-  if (holiday || date.day() === 0 || date.day() === 6) {
-    return;
-  }
+    if (holiday || date.day() === 0 || date.day() === 6) {
+      return;
+    }
 
-  let stepType = "clock-in";
-  if (date.hour() === 18) {
-    stepType = "clock-out";
+    let stepType = "clock-in";
+    if (date.hour() === 18) {
+      stepType = "clock-out";
+    }
+    await steps(stepType);
+  } catch (err) {
+    throw err;
   }
-  await steps(stepType);
 }
 
 async function holiday() {
-  await getHolidays();
+  try {
+    await getHolidays();
+  } catch (error) {
+    throw error;
+  }
 }
 
 const initSchedule = () => {
