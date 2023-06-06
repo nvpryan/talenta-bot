@@ -7,7 +7,7 @@ import Holiday from "../models/Holiday.js";
 const DEFAULT_TZ = "Asia/Singapore";
 
 async function attendance() {
-  const date = moment().tz(this.defaultTZ);
+  const date = moment().tz(DEFAULT_TZ);
   const holiday = await Holiday.findOne({
     startDate: date.format("YYYY-MM-DD"),
   });
