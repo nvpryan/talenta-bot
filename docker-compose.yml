@@ -6,6 +6,7 @@ services:
       - db
     environment:
       - MONGO_URI=mongodb://db:27017/${DB_NAME}
+    restart: always
 
   db:
     image: mongo:jammy
