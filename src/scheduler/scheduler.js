@@ -12,7 +12,7 @@ async function attendance() {
     startDate: date.format("YYYY-MM-DD"),
   });
 
-  if (holiday) {
+  if (holiday || date.day() === 0 || date.day() === 6) {
     return;
   }
 
