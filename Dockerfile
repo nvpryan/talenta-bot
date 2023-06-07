@@ -17,8 +17,7 @@ COPY . ./
 
 RUN chown -R pptruser:pptruser /home/pptruser/app
 
-RUN npm install
-
 USER pptruser
+RUN npm install
 
 CMD [ "npm", "run", "start" ]
