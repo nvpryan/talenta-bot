@@ -4,7 +4,15 @@ import login from "../steps/login.js";
 import Holiday from "../models/Holiday.js";
 
 const getHolidays = async () => {
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({
+    headless: "new",
+    args: [
+      "--no-sandbox",
+      "--disable-setuid-sandbox",
+      "--disable-dev-shm-usage",
+      "--single-process",
+    ],
+  });
   const page = await browser.newPage();
   await page.goto(WEB_URL);
 
