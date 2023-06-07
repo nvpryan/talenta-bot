@@ -10,12 +10,15 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/* \
     && groupadd -r pptruser && useradd -rm -g pptruser -G audio,video pptruser
 
-USER pptruser
-
 WORKDIR /home/pptruser/app
 
+USER root
 COPY . ./
 
+RUN chown -R pptruser:pptruser /home/pptruser/app
+
 RUN npm install
+
+USER pptruser
 
 CMD [ "npm", "run", "start" ]
