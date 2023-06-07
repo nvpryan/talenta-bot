@@ -4,7 +4,15 @@ import { WEB_URL } from "../config/app.config.js";
 import { clockIn, clockOut } from "./attendance.js";
 
 const steps = async (type) => {
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({
+    headless: "new",
+    args: [
+      "--no-sandbox",
+      "--disable-setuid-sandbox",
+      "--disable-dev-shm-usage",
+      "--single-process",
+    ],
+  });
   await browser
     .defaultBrowserContext()
     .overridePermissions(WEB_URL, ["geolocation"]);
