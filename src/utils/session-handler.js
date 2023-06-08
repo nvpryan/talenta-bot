@@ -16,7 +16,7 @@ const saveSession = async (cookies) => {
 
 const loadSession = async () => {
   const user = await User.findOne({ username: USERNAME });
-  return JSON.parse(user.session);
+  return user ? JSON.parse(user.session) : undefined;
 };
 
 export { saveSession, loadSession };
