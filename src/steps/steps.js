@@ -21,7 +21,7 @@ const steps = async (type) => {
   await page.setGeolocation({ latitude: -8.6499, longitude: 115.216 });
   await page.goto(WEB_URL);
 
-  await login();
+  await login(page);
 
   // Go to attendance page
   await page.waitForSelector(`a[href="/live-attendance"]`);
