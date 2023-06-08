@@ -7,6 +7,7 @@ import { loadSession } from "../utils/session-handler.js";
 const login = async (page) => {
   const userSession = await loadSession();
   if (userSession) {
+    console.log("Using saved session");
     await page.setCookie(...userSession);
     await page.reload();
   } else {

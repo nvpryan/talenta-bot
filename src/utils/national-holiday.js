@@ -32,6 +32,12 @@ const getHolidays = async () => {
             title: event.title,
             startDate: event.start,
             daysAmount: event.amount_days,
+          }).catch((err) => {
+            console.log("Holiday already exists", {
+              title: event.title,
+              startDate: event.start,
+              daysAmount: event.amount_days,
+            });
           });
         }
       });
