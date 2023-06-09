@@ -6,12 +6,7 @@ import Holiday from "../models/Holiday.js";
 const getHolidays = async () => {
   const browser = await puppeteer.launch({
     headless: "new",
-    args: [
-      "--no-sandbox",
-      "--disable-setuid-sandbox",
-      "--disable-dev-shm-usage",
-      "--single-process",
-    ],
+    args: ["--no-sandbox", "--disable-setuid-sandbox"],
   });
   const page = await browser.newPage();
   await page.goto(WEB_URL);
@@ -32,13 +27,22 @@ const getHolidays = async () => {
             title: event.title,
             startDate: event.start,
             daysAmount: event.amount_days,
-          }).catch((err) => {
-            console.log("Holiday already exists", {
-              title: event.title,
-              startDate: event.start,
-              daysAmount: event.amount_days,
+          })
+            .catch(async (err) => {
+              console.log("Holiday already exists", {
+                title: event.title,
+                startDate: event.start,
+                daysAmount: event.amount_days,
+              });
+              if (browser.isConnected()) {
+                await browser.close();
+              }
+            })
+            .then(async () => {
+              if (browser.isConnected()) {
+                await browser.close();
+              }
             });
-          });
         }
       });
     }
