@@ -18,35 +18,30 @@ const getHolidays = async () => {
   await page.waitForSelector(`a[href="/employee/company-calendar"]`);
   await page.click(`a[href="/employee/company-calendar"]`);
 
-  page.on("response", async (response) => {
-    if (response.url().includes("get-comp-cal-data")) {
-      const data = await response.json();
-      data.events.forEach(async (event) => {
-        if (event.type === "H" || event.type === "N") {
-          Holiday.create({
-            title: event.title,
-            startDate: event.start,
-            daysAmount: event.amount_days,
-          })
-            .catch(async (err) => {
+  page
+    .on("response", async (response) => {
+      if (response.url().includes("get-comp-cal-data")) {
+        const data = await response.json();
+        data.events.forEach(async (event) => {
+          if (event.type === "H" || event.type === "N") {
+            Holiday.create({
+              title: event.title,
+              startDate: event.start,
+              daysAmount: event.amount_days,
+            }).catch(async (err) => {
               console.log("Holiday already exists", {
                 title: event.title,
                 startDate: event.start,
                 daysAmount: event.amount_days,
               });
-              if (browser.isConnected()) {
-                await browser.close();
-              }
-            })
-            .then(async () => {
-              if (browser.isConnected()) {
-                await browser.close();
-              }
             });
-        }
-      });
-    }
-  });
+          }
+        });
+      }
+    })
+    .then(async () => {
+      await browser.close();
+    });
 };
 
 export default getHolidays;
