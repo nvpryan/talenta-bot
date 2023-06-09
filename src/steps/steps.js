@@ -7,12 +7,7 @@ const steps = async (type) => {
   console.log("Automating", type);
   const browser = await puppeteer.launch({
     headless: "new",
-    args: [
-      "--no-sandbox",
-      "--disable-setuid-sandbox",
-      "--disable-dev-shm-usage",
-      "--single-process",
-    ],
+    args: ["--no-sandbox", "--disable-setuid-sandbox"],
   });
   await browser
     .defaultBrowserContext()
@@ -41,6 +36,7 @@ const steps = async (type) => {
     await clockOut(page);
     console.log("Clocked out");
   }
+  await browser.close();
 };
 
 export default steps;

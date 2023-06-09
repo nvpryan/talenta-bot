@@ -3,6 +3,7 @@ import moment from "moment-timezone";
 import steps from "../steps/steps.js";
 import getHolidays from "../utils/national-holiday.js";
 import Holiday from "../models/Holiday.js";
+import { NODE_ENV } from "../config/app.config.js";
 
 const DEFAULT_TZ = "Asia/Singapore";
 
@@ -50,5 +51,10 @@ const initSchedule = () => {
   scheduleJob(ruleAttendance, attendance);
   scheduleJob(ruleHoliday, holiday);
 };
+
+if (NODE_ENV === "development") {
+  attendance();
+  holiday();
+}
 
 export { initSchedule };
