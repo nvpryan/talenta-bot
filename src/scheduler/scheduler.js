@@ -53,8 +53,8 @@ const initSchedule = () => {
 };
 
 if (NODE_ENV === "development") {
-  attendance();
-  holiday();
+  await attendance();
+  await holiday();
 }
 
 export { initSchedule };

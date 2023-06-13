@@ -11,6 +11,7 @@ const login = async (page) => {
     await page.setCookie(...userSession);
     await page.reload();
   } else {
+    console.log("Using user credentials");
     await page.type("#user_email", USERNAME);
     await page.type("#user_password", PASSWORD);
     await page.click("#new-signin-button");
