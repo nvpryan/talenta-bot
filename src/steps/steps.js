@@ -2,9 +2,11 @@ import puppeteer from "puppeteer";
 import login from "./login.js";
 import { WEB_URL } from "../config/app.config.js";
 import { clockIn, clockOut } from "./attendance.js";
+import moment from "moment-timezone";
 
 const steps = async (type) => {
-  console.log("Automating", type);
+  const currentDate = moment().tz("Asia/Singapore").format("YYYY-MM-DD");
+  console.log(`Automating ${type} on ${currentDate}`);
   const browser = await puppeteer.launch({
     headless: "new",
     args: ["--no-sandbox", "--disable-setuid-sandbox"],
@@ -36,7 +38,20 @@ const steps = async (type) => {
     await clockOut(page);
     console.log("Clocked out");
   }
-  await browser.close();
+
+  page.on("response", async (response) => {
+    if (response.url().includes("attendance_clocks") && response.ok()) {
+      const headers = response.headers();
+      const contentType = headers["content-type"];
+      if (contentType && contentType.includes("application/json")) {
+        const data = await response.json();
+        console.log(data);
+        console.log(`${type} at ${currentDate} is successful`);
+        console.log("\n");
+        await browser.close();
+      }
+    }
+  });
 };
 
 export default steps;
