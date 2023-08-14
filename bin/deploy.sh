@@ -16,5 +16,5 @@ ssh "$SERVER_USERNAME@$SERVER_IP" \
   "mv ~/docker-compose.yml /usr/src/talenta-bot/docker-compose.yml ;" \
   "mv ~/vm-deployer.sh /usr/src/talenta-bot/vm-deployer.sh ;" \
   "chmod +x /usr/src/talenta-bot/vm-deployer.sh ;" \
-  "cd ~/talenta-bot ;" \
+  "cd /usr/src/talenta-bot ;" \
   "/usr/src/talenta-bot/vm-deployer.sh ${DB_NAME} ;"
